@@ -9,7 +9,7 @@ const NavBar = () => {
         { name: "Gallery", link: "/gallery" },
     ];
     return (
-        <header className="flex justify-between items-center md:px-20 px-5 py-5 fixed w-full text-white z-50">
+        <header className="flex justify-between items-center md:px-20 px-5 py-5 fixed w-full text-white z-50 backdrop-blur-md">
             <Logo />
 
             <nav>
