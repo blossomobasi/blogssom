@@ -15,11 +15,7 @@ export type LoginData = {
     password: string;
 }
 
-export type AuthResponse = {
-    status: string;
-    token: string;
-    data: User;
-}
+export type AuthResponse = ApiResponse<User>;
 
 export type RegisterData = {
     firstName: string;
