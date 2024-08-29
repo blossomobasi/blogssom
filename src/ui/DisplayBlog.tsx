@@ -1,5 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Blog } from "../types/blog";
+import { IoEyeOutline } from "react-icons/io5";
+import { FaRegComment, FaRegHeart } from "react-icons/fa";
+import { formatDate } from "../utils";
 
 type DisplayBlogProps = {
     data: Blog[];
@@ -7,6 +10,7 @@ type DisplayBlogProps = {
 
 const DisplayBlog = ({ data }: DisplayBlogProps) => {
     const navigate = useNavigate();
+
     return (
         <div className="py-10 grid lg:grid-cols-3 sm:grid-cols-2 gap-5">
             {data.map((blog) => (
@@ -26,7 +30,7 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                     </div>
 
                     <p className="py-3 text-gray-600 text-sm">
-                        {blog.createdAt} &bull; {blog.readingTime} min read
+                        {formatDate(blog.createdAt)} &bull; {blog.readingTime} min read
                     </p>
 
                     <Link
@@ -39,16 +43,35 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                         {blog.content.substring(0, 100)}...
                     </p>
 
-                    <figure className="flex items-center space-x-2 pt-2">
-                        <img
-                            src={blog.author.avatar}
-                            alt={blog.author.firstName}
-                            className="w-10 h-10 rounded-full"
-                        />
-                        <figcaption className="text-sm">
-                            {blog.author.firstName} {blog.author.lastName}
-                        </figcaption>
-                    </figure>
+                    <div className="flex items-center justify-between">
+                        <figure className="flex items-center space-x-2 pt-2">
+                            <img
+                                src={blog.author.avatar}
+                                alt={blog.author.firstName}
+                                className="w-10 h-10 rounded-full"
+                            />
+                            <figcaption className="text-sm">
+                                {blog.author.firstName} {blog.author.lastName}
+                            </figcaption>
+                        </figure>
+
+                        <div className="flex items-center space-x-5 text-gray-600">
+                            <span className="flex items-center space-x-2">
+                                <FaRegHeart size={20} />
+                                <span>{blog.likes.length === 0 ? "" : blog.likes.length}</span>
+                            </span>
+                            <span className="flex items-center space-x-2">
+                                <FaRegComment size={20} />
+                                <span>
+                                    {blog.comments.length === 0 ? "" : blog.comments.length}
+                                </span>
+                            </span>
+                            <span className="flex items-center space-x-2">
+                                <IoEyeOutline size={25} />
+                                <span>{blog.views.length === 0 ? "" : blog.views.length}</span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             ))}
         </div>
