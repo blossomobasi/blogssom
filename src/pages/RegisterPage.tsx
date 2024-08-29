@@ -7,6 +7,7 @@ import { RegisterApi } from "../services";
 import { toast } from "react-toastify";
 import clsx from "clsx";
 import { AxiosError } from "axios";
+import MiniSpinner from "../ui/MiniSpinner";
 
 const RegisterPage = () => {
     const { register, handleSubmit, formState } = useForm<RegisterData>();
@@ -102,11 +103,14 @@ const RegisterPage = () => {
                         </label>
                     </div>
                     <button
-                        className={clsx("bg-black text-white py-3 font-semibold", {
-                            "cursor-not-allowed opacity-60": isRegistering,
-                        })}
+                        className={clsx(
+                            "bg-black text-white py-3 font-semibold flex items-center justify-center",
+                            {
+                                "cursor-not-allowed opacity-60": isRegistering,
+                            }
+                        )}
                     >
-                        Register
+                        {isRegistering ? <MiniSpinner /> : "Register"}
                     </button>
                 </form>
             </div>
