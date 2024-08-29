@@ -1,18 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { GetCategoriesApi } from "../services";
 import { useState } from "react";
-import clsx from "clsx";
 import { useBlog } from "../hooks/useBlog";
+import clsx from "clsx";
+
+import DisplayBlog from "../ui/DisplayBlog";
+import { useCategory } from "../hooks/useCategory";
 
 const HomeBlog = () => {
     const [categories, setCategories] = useState("All");
     const { blogs, isFetchingBlogs, blogError } = useBlog(
         categories === "All" ? undefined : categories
     );
-    const { data, error, isLoading } = useQuery({
-        queryKey: ["categories"],
-        queryFn: GetCategoriesApi,
-    });
+    const { data, error, isLoading } = useCategory();
 
     if (error) {
         return <div>{error.message}</div>;
@@ -65,34 +63,7 @@ const HomeBlog = () => {
             ) : !blogs?.results ? (
                 <div className="pt-10 px-4">No Blog found</div>
             ) : (
-                <div className="py-10">
-                    {blogs?.data.blogs.map((blog) => (
-                        <div key={blog._id} className="py-5">
-                            <h3 className="text-xl font-semibold">{blog.title}</h3>
-                            <div className="flex justify-between">
-                                <div>
-                                    <p className="text-gray-500">{blog.author}</p>
-                                </div>
-                                <div>
-                                    <img
-                                        src={blog.imageCover}
-                                        alt={blog.title}
-                                        className="h-40 w-40 object-cover"
-                                    />
-                                </div>
-                            </div>
-                            <p className="py-3">{blog.content}</p>
-                            <div className="flex justify-between">
-                                <div>
-                                    <p className="text-gray-500">{blog.createdAt}</p>
-                                </div>
-                                <div>
-                                    <p className="text-gray-500">{blog.readingTime} min read</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <DisplayBlog data={blogs.data.blogs} />
             )}
         </div>
     );
