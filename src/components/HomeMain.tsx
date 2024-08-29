@@ -20,7 +20,7 @@ const HomeMain = () => {
                     the world.
                 </p>
                 <Link
-                    to="/blog"
+                    to="/blogs"
                     className="bg-white text-black px-5 py-2 hover:scale-105 transition-all duration-300"
                 >
                     Start Blogging
