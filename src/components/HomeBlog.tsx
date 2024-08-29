@@ -3,6 +3,7 @@ import { useBlog } from "../hooks/useBlog";
 import clsx from "clsx";
 
 import DisplayBlog from "../ui/DisplayBlog";
+import Spinner from "../ui/Spinner";
 import { useCategory } from "../hooks/useCategory";
 
 const HomeBlog = () => {
@@ -28,7 +29,9 @@ const HomeBlog = () => {
             </p>
 
             {isLoading ? (
-                <div className="pt-10 px-4">Loading...</div>
+                <div className="pt-10 px-4">
+                    <Spinner />
+                </div>
             ) : (
                 <div className="flex space-x-10">
                     <span
@@ -59,7 +62,9 @@ const HomeBlog = () => {
             )}
 
             {isFetchingBlogs ? (
-                <div className="pt-10 px-4">Fetching Blogs...</div>
+                <div className="pt-10 px-4">
+                    <Spinner />
+                </div>
             ) : !blogs?.results ? (
                 <div className="pt-10 px-4">No Blog found</div>
             ) : (
