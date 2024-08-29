@@ -4,6 +4,7 @@ import { useUser } from "../hooks/useUser";
 import { CiLogout } from "react-icons/ci";
 import { useLogout } from "../hooks/useLogout";
 import clsx from "clsx";
+import MiniSpinner from "../ui/MiniSpinner";
 
 const NavBar = () => {
     const { user } = useUser();
@@ -66,7 +67,7 @@ const NavBar = () => {
                             }
                         )}
                     >
-                        <CiLogout size={23} />
+                        {isLoggingout ? <MiniSpinner color="black" /> : <CiLogout size={23} />}
                     </span>
                 </div>
             )}
