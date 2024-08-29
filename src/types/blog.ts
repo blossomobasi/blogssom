@@ -1,11 +1,18 @@
+import { Category } from "./categories";
+
 export type Blog = {
     _id: string;
     title: string;
     content: string;
     imageCover: string;
     readingTime: number;
-    author: string;
-    category: string;
+    author: {
+        _id: string;
+        firstName: string;
+        lastName: string;
+        avatar: string;
+    };
+    category: Category;
     comments: string[];
     likes: string[];
     views: string[];
