@@ -10,6 +10,8 @@ export type User = {
     __v: number;
 }
 
+export type UserResponse = ApiResponse<{ user: User }>;
+
 export type LoginData = {
     email: string;
     password: string;
