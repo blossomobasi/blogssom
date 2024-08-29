@@ -1,5 +1,5 @@
 import { LoginData, AuthResponse, RegisterData, UserResponse } from "../types/auth";
-import { BlogResponse } from "../types/blog";
+import { BlogResponse, SingleBlogResponse } from "../types/blog";
 import { CategoryResponse } from "../types/categories";
 import $http from "./axiosConfig"
 
@@ -39,6 +39,11 @@ export const GetCategoryApi = async (categoryId: string): Promise<CategoryRespon
 // Blogs
 export const GetBlogsApi = async (categoryId?: string): Promise<BlogResponse> => {
     const response = await $http.get(`/api/v1/blogs${categoryId ? `?category=${categoryId}` : ""}`);
+
+    return response.data;
+}
+export const GetBlogApi = async (blogId: string): Promise<SingleBlogResponse> => {
+    const response = await $http.get(`/api/v1/blogs/${blogId}`);
 
     return response.data;
 }
