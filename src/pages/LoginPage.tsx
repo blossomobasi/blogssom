@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { LoginData } from "../types/auth";
 import clsx from "clsx";
 import { AxiosError } from "axios";
+import MiniSpinner from "../ui/MiniSpinner";
 
 const LoginPage = () => {
     const { register, handleSubmit, formState } = useForm<LoginData>();
@@ -87,11 +88,14 @@ const LoginPage = () => {
                     </div>
 
                     <button
-                        className={clsx("bg-black text-white py-3 font-semibold", {
-                            "cursor-not-allowed opacity-60": isLoggingIn,
-                        })}
+                        className={clsx(
+                            "bg-black text-white py-3 font-semibold flex items-center justify-center",
+                            {
+                                "cursor-not-allowed opacity-60": isLoggingIn,
+                            }
+                        )}
                     >
-                        Login
+                        {isLoggingIn ? <MiniSpinner /> : "Login"}
                     </button>
                 </form>
             </div>
