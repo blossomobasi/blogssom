@@ -22,3 +22,4 @@ export type Blog = {
 }
 
 export type BlogResponse = ApiResponse<{ blogs: Blog[] }>;
+export type SingleBlogResponse = ApiResponse<{ blog: Blog }>;
