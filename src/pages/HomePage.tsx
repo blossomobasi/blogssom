@@ -1,12 +1,13 @@
 import HomeBlog from "../components/HomeBlog";
 import HomeMain from "../components/HomeMain";
+import ScrollToTop from "../ui/ScrollToTop";
 
 const HomePage = () => {
     return (
-        <div>
+        <ScrollToTop>
             <HomeMain />
             <HomeBlog />
-        </div>
+        </ScrollToTop>
     );
 };
 
