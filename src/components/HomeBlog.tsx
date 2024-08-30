@@ -62,9 +62,7 @@ const HomeBlog = () => {
             )}
 
             {isFetchingBlogs ? (
-                <div className="pt-10 px-4">
-                    <Spinner />
-                </div>
+                <Spinner />
             ) : !blogs?.results ? (
                 <div className="pt-10 px-4">No Blog found</div>
             ) : (
