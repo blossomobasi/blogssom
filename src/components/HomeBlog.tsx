@@ -33,7 +33,7 @@ const HomeBlog = () => {
                     <Spinner />
                 </div>
             ) : (
-                <div className="flex space-x-10">
+                <div className="flex md:space-x-10 space-x-5 overflow-auto md:text-base whitespace-nowrap">
                     <span
                         className={clsx("hover:bg-gray-200 py-2 px-4 rounded-md cursor-pointer", {
                             "bg-gray-200": categories === "All",
@@ -48,7 +48,7 @@ const HomeBlog = () => {
                             <span
                                 key={category._id}
                                 className={clsx(
-                                    "hover:bg-gray-200 py-2 px-4 rounded-md cursor-pointer",
+                                    "hover:bg-gray-200 py-2 md:px-4 p-2 rounded-md cursor-pointer",
                                     {
                                         "bg-gray-200": categories === category._id,
                                     }
