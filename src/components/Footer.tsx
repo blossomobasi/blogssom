@@ -3,8 +3,8 @@ import Logo from "./Logo";
 const Footer = () => {
     const year = new Date().getFullYear();
     return (
-        <div className="bg-black text-gray-300 md:px-20 px-5 py-8">
-            <div className="grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-2 gap-8 mb-10">
+        <div className="bg-black text-gray-300 md:px-20 px-5 py-8 flex flex-col items-center">
+            <div className="grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-2 gap-8 mb-10 max-w-[110rem] w-full">
                 <div className="col-span-2">
                     <Logo />
                     <p className="mt-3">
@@ -45,7 +45,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <p>&copy;{year} Blogssom. All rights reserved</p>
+            <p className="max-w-[110rem] w-full">&copy;{year} Blogssom. All rights reserved</p>
         </div>
     );
 };
