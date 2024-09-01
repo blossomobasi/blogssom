@@ -21,7 +21,7 @@ const HomeBlog = () => {
     }
 
     return (
-        <div className="md:px-20 px-5 py-10 h-full">
+        <div className="md:px-20 px-5 pt-10 h-full">
             <div className="flex justify-center">
                 <div className="max-w-[110rem] w-full">
                     <h2 className="font-semibold text-3xl pb-2">Blog</h2>
