@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Blog } from "../types/blog";
 import { FaHeart, FaRegComment, FaRegHeart } from "react-icons/fa";
-import { formatDate } from "../utils";
+import { formatDate, truncateText } from "../utils";
 import { IoMdArrowForward } from "react-icons/io";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LikeBlogApi, UnlikeBlogApi } from "../services";
@@ -95,9 +95,13 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                     <IoMdArrowForward size={25} className="-rotate-45" />
                                 </span>
                             </Link>
-                            <p className="text-gray-600 text-sm pb-2">
-                                {blog.content.substring(0, 100)}...
-                            </p>
+                            <div className="text-gray-600 text-sm pb-2">
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: truncateText(blog.content, 20),
+                                    }}
+                                />
+                            </div>
 
                             <div className="flex items-center justify-between">
                                 <figure className="flex items-center space-x-2 pt-2">
