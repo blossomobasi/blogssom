@@ -64,13 +64,32 @@ const NavBar = () => {
                                 <NavLink to={item.link}>{item.name}</NavLink>
                             </li>
                         ))}
+
+                        <span
+                            onClick={() => logout()}
+                            className={clsx(
+                                "border bg-black text-white hover:font-medium px-5 py-2 cursor-pointer flex items-center justify-center",
+                                {
+                                    "opacity-50 cursor-not-allowed": isLoggingout,
+                                }
+                            )}
+                        >
+                            {isLoggingout ? (
+                                <MiniSpinner color="black" />
+                            ) : (
+                                <>
+                                    Logout
+                                    <CiLogout size={23} />
+                                </>
+                            )}
+                        </span>
                     </ul>
                 </nav>
 
                 {/* Overlay */}
                 {showMobileNav && (
                     <div
-                        className="fixed top-0 left-0 w-full h-screen bg-black/50 z-40"
+                        className="fixed top-0 left-0 w-full h-screen bg-black/50 z-40 md:hidden"
                         onClick={() => setShowMobileNav(false)}
                     />
                 )}
