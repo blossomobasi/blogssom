@@ -33,7 +33,14 @@ const BlogIdPage = () => {
                         src={blog?.data.blog.imageCover}
                         alt={blog?.data.blog.title}
                     />
-                    <p className="pt-5">{blog?.data.blog.content}</p>
+                    {/* <p className="pt-5">{blog?.data.blog.content}</p> */}
+                    <div className="pt-5">
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: blog?.data.blog.content || "",
+                            }}
+                        />
+                    </div>
                 </div>
 
                 <div className="md:px-20 px-5">
