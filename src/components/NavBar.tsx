@@ -7,6 +7,7 @@ import clsx from "clsx";
 import MiniSpinner from "../ui/MiniSpinner";
 import { useEffect, useState } from "react";
 import { TbMenu } from "react-icons/tb";
+import { IoMdClose } from "react-icons/io";
 
 const NavBar = () => {
     const { user } = useUser();
@@ -49,9 +50,9 @@ const NavBar = () => {
                 {/* Mobile Navigation */}
                 <nav
                     className={clsx(
-                        "md:hidden flex flex-col items-center px-5 py-10 absolute top-0 left-0 h-screen bg-white z-50 text-black w-[20rem] transition-transform duration-300",
+                        "md:hidden flex flex-col items-center px-5 py-10 absolute top-0 right-0 h-screen bg-white z-50 text-black w-[20rem] transition-transform duration-300",
                         {
-                            "transform -translate-x-full": !showMobileNav,
+                            "transform translate-x-full": !showMobileNav,
                         }
                     )}
                 >
@@ -84,6 +85,18 @@ const NavBar = () => {
                             )}
                         </span>
                     </ul>
+
+                    <span
+                        className={clsx(
+                            "bg-white rounded-full h-8 w-8 absolute top-5 -left-10 cursor-pointer flex items-center justify-center",
+                            {
+                                hidden: !showMobileNav,
+                            }
+                        )}
+                        onClick={() => setShowMobileNav(false)}
+                    >
+                        <IoMdClose size={23} />
+                    </span>
                 </nav>
 
                 {/* Overlay */}
