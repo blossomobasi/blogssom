@@ -47,3 +47,13 @@ export const GetBlogApi = async (blogId: string): Promise<SingleBlogResponse> =>
 
     return response.data;
 }
+export const LikeBlogApi = async (blogId: string): Promise<SingleBlogResponse> => {
+    const response = await $http.patch(`/api/v1/blogs/${blogId}/like`);
+
+    return response.data;
+}
+export const UnlikeBlogApi = async (blogId: string): Promise<SingleBlogResponse> => {
+    const response = await $http.patch(`/api/v1/blogs/${blogId}/unlike`);
+
+    return response.data;
+}
