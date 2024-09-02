@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import BlogIdPage from "./pages/BlogIdPage";
+import CreateBlogPage from "./pages/CreateBlogPage";
 
 function App() {
     const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ function App() {
                         <Route index element={<HomePage />} />
                         <Route path="/blogs" element={<BlogPage />} />
                         <Route path="/blogs/:blogId" element={<BlogIdPage />} />
+                        <Route path="/blogs/create" element={<CreateBlogPage />} />
                     </Route>
 
                     <Route path="/login" element={<LoginPage />} />
