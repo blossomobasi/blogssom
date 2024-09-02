@@ -1,5 +1,5 @@
 import { LoginData, AuthResponse, RegisterData, UserResponse } from "../types/auth";
-import { BlogResponse, SingleBlogResponse } from "../types/blog";
+import { BlogResponse, CreateBlogResponse, SingleBlogResponse } from "../types/blog";
 import { CategoryResponse } from "../types/categories";
 import $http from "./axiosConfig"
 
@@ -54,6 +54,15 @@ export const LikeBlogApi = async (blogId: string): Promise<SingleBlogResponse> =
 }
 export const UnlikeBlogApi = async (blogId: string): Promise<SingleBlogResponse> => {
     const response = await $http.patch(`/api/v1/blogs/${blogId}/unlike`);
+
+    return response.data;
+}
+export const CreateBlogApi = async (formData: FormData): Promise<CreateBlogResponse> => {
+    const response = await $http.post(`/api/v1/blogs`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        }
+    });
 
     return response.data;
 }
