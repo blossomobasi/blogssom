@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import { useForm } from "react-hook-form";
@@ -8,8 +9,11 @@ import { toast } from "react-toastify";
 import clsx from "clsx";
 import { AxiosError } from "axios";
 import MiniSpinner from "../ui/MiniSpinner";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const RegisterPage = () => {
+    const [showPassword, setShowPassword] = useState(true);
     const { register, handleSubmit, formState } = useForm<RegisterData>();
     const { errors } = formState;
     const navigate = useNavigate();
@@ -76,19 +80,33 @@ const RegisterPage = () => {
                     {errors.email && (
                         <span className="text-red-500 text-sm">{errors.email.message}</span>
                     )}
-                    <input
-                        type="password"
-                        id="password"
-                        {...register("password", {
-                            required: "Password is required",
-                            minLength: {
-                                value: 8,
-                                message: "Password must be at least 8 characters",
-                            },
-                        })}
-                        className="border px-2 py-3 w-full placeholder:text-gray-600 focus-within:border-black focus-within:outline-none"
-                        placeholder="Password"
-                    />
+
+                    <div className="border flex items-center focus-within:border-black">
+                        <input
+                            type={showPassword ? "password" : "text"}
+                            id="password"
+                            {...register("password", {
+                                required: "Password is required",
+                                minLength: {
+                                    value: 8,
+                                    message: "Password must be at least 8 characters",
+                                },
+                            })}
+                            className="px-2 py-3 w-full placeholder:text-gray-600 focus-within:border-black focus-within:outline-none"
+                            placeholder="Password"
+                        />
+                        <span
+                            onClick={() => setShowPassword((show) => !show)}
+                            className="px-3 cursor-pointer"
+                        >
+                            {showPassword ? (
+                                <FaRegEyeSlash size={25} />
+                            ) : (
+                                <MdOutlineRemoveRedEye size={25} />
+                            )}
+                        </span>
+                    </div>
+
                     {errors.password && (
                         <span className="text-red-500 text-sm">{errors.password.message}</span>
                     )}
