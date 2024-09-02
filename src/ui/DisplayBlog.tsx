@@ -1,16 +1,65 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Blog } from "../types/blog";
-import { IoEyeOutline } from "react-icons/io5";
-import { FaRegComment, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegComment, FaRegHeart } from "react-icons/fa";
 import { formatDate } from "../utils";
 import { IoMdArrowForward } from "react-icons/io";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { LikeBlogApi, UnlikeBlogApi } from "../services";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { useUser } from "../hooks/useUser";
 
 type DisplayBlogProps = {
     data: Blog[];
 };
 
 const DisplayBlog = ({ data }: DisplayBlogProps) => {
+    const { user } = useUser();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    const { mutate: LikeBlog } = useMutation({
+        mutationFn: LikeBlogApi,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["blogs"],
+            });
+        },
+        onError: (err: AxiosError) => {
+            const errorMessage = (err.response?.data as { message: string }).message;
+            toast.error(errorMessage);
+        },
+    });
+
+    const { mutate: UnlikeBlog } = useMutation({
+        mutationFn: UnlikeBlogApi,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["blogs"],
+            });
+        },
+        onError: (err: AxiosError) => {
+            const errorMessage = (err.response?.data as { message: string }).message;
+            toast.error(errorMessage);
+        },
+    });
+
+    const hasAlreadyLikedBlog = (blogId: string) => {
+        const blog = data.find((blog) => blog._id === blogId);
+        if (!blog || !user) return false;
+
+        return blog.likes.includes(user.data.user._id);
+    };
+
+    function handleLike(blogId: string) {
+        if (!user) {
+            navigate("/login");
+        }
+        LikeBlog(blogId);
+    }
+
+    function handleUnlike(blogId: string) {
+        UnlikeBlog(blogId);
+    }
 
     return (
         <div className="flex justify-center">
@@ -64,7 +113,18 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
 
                                 <div className="flex items-center space-x-5 text-gray-600">
                                     <span className="flex items-center space-x-2">
-                                        <FaRegHeart size={20} />
+                                        {!hasAlreadyLikedBlog(blog._id) ? (
+                                            <FaRegHeart
+                                                size={20}
+                                                onClick={() => handleLike(blog._id)}
+                                            />
+                                        ) : (
+                                            <FaHeart
+                                                size={20}
+                                                onClick={() => handleUnlike(blog._id)}
+                                                className="text-red-500"
+                                            />
+                                        )}
                                         <span>
                                             {blog.likes.length === 0 ? "" : blog.likes.length}
                                         </span>
@@ -75,12 +135,12 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                             {blog.comments.length === 0 ? "" : blog.comments.length}
                                         </span>
                                     </span>
-                                    <span className="flex items-center space-x-2">
+                                    {/* <span className="flex items-center space-x-2">
                                         <IoEyeOutline size={25} />
                                         <span>
                                             {blog.views.length === 0 ? "" : blog.views.length}
                                         </span>
-                                    </span>
+                                    </span> */}
                                 </div>
                             </div>
                         </div>
