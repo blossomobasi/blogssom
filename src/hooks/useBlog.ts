@@ -12,7 +12,5 @@ export const useBlog = (categoryId?: string, blogId?: string) => {
         queryFn: () => GetBlogApi(blogId as string),
     })
 
-
-
     return { blogs, blog, isFetchingBlog, isFetchingBlogs, blogError, error }
 }
