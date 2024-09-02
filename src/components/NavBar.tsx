@@ -16,7 +16,7 @@ const NavBar = () => {
     const navData = [
         { name: "Home", link: "/" },
         { name: "Blog", link: "/blogs" },
-        { name: "Categories", link: "/category" }, // should have subcategories
+        { name: "Categories", link: "/category" }, // should have subcategories.
         { name: "Gallery", link: "/gallery" },
     ];
 
