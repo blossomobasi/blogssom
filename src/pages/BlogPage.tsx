@@ -1,8 +1,11 @@
 import { useBlog } from "../hooks/useBlog";
+import { FaRegSquarePlus } from "react-icons/fa6";
+
 import DisplayBlog from "../ui/DisplayBlog";
 import ScrollToTop from "../ui/ScrollToTop";
 import Spinner from "../ui/Spinner";
 import Mountain from "/images/mountain.jpg";
+import { Link } from "react-router-dom";
 
 const BlogPage = () => {
     const { blogs, isFetchingBlogs, blogError } = useBlog();
@@ -23,6 +26,14 @@ const BlogPage = () => {
                 <p className="text-lg font-medium drop-shadow-lg">
                     Travel blog | Recent blog posts
                 </p>
+
+                <Link
+                    to="create"
+                    className="border hover:bg-white/5 px-5 py-2 mt-5 font-medium cursor-pointer flex items-center justify-center"
+                >
+                    <FaRegSquarePlus size={23} />
+                    <span className="ml-2">Create Blog</span>
+                </Link>
             </div>
 
             <h2 className="text-3xl font-semibold text-center mt-10">Recent Blogs</h2>
