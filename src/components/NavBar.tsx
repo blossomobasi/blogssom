@@ -133,11 +133,7 @@ const NavBar = () => {
                     <ul className="font-medium flex flex-col space-y-5 w-full">
                         {navData.map((item) =>
                             item.name === "Categories" ? (
-                                <li
-                                    key={item.name}
-                                    className="relative border-b pb-4"
-                                    onClick={() => setShowMobileNav(false)}
-                                >
+                                <li key={item.name} className="relative border-b pb-4">
                                     <NavLink
                                         to={item?.link || "#"}
                                         className="flex items-center justify-between gap-x-2 h-8"
@@ -153,7 +149,10 @@ const NavBar = () => {
                                     </NavLink>
                                     {showCategories &&
                                         data?.data.categories.map((category) => (
-                                            <li className="p-3 text-stone-600">
+                                            <li
+                                                className="p-3 text-stone-600"
+                                                onClick={() => setShowMobileNav(false)}
+                                            >
                                                 <NavLink to={`/category/${category.name}`}>
                                                     {category.name}
                                                 </NavLink>
