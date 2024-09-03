@@ -8,20 +8,33 @@ import MiniSpinner from "../ui/MiniSpinner";
 import { useEffect, useState } from "react";
 import { TbMenu } from "react-icons/tb";
 import { IoMdClose } from "react-icons/io";
+import { useCategory } from "../hooks/useCategory";
+import { LiaAngleDownSolid } from "react-icons/lia";
 
 const NavBar = () => {
     const { user } = useUser();
+    const { data, isLoading } = useCategory();
     const { logout, isLoggingout } = useLogout();
     const [showMobileNav, setShowMobileNav] = useState(false);
+    const [showCategories, setShowCategories] = useState(false);
 
     const navData = [
         { name: "Home", link: "/" },
         { name: "Blog", link: "/blogs" },
-        { name: "Categories", link: "/category" }, // should have subcategories.
+        { name: "Categories" }, // should have subcategories.
         { name: "Gallery", link: "/gallery" },
     ];
 
     const mobileScreen = window.innerWidth < 768;
+
+    const mobileFirstName = user?.data.user.firstName
+        .split(" ")
+        .map((name) => name[0])
+        .join("");
+    const mobileLastName = user?.data.user.lastName
+        .split(" ")
+        .map((name) => name[0])
+        .join("");
 
     useEffect(() => {
         if (showMobileNav) {
@@ -39,11 +52,69 @@ const NavBar = () => {
                 {/* Desktop Navigation */}
                 <nav className="md:flex hidden">
                     <ul className="flex space-x-8 font-medium">
-                        {navData.map((item) => (
-                            <li key={item.name}>
-                                <NavLink to={item.link}>{item.name}</NavLink>
-                            </li>
-                        ))}
+                        {navData.map((item) =>
+                            item.name === "Categories" ? (
+                                <li key={item.name} className="relative">
+                                    <NavLink
+                                        to={item?.link || "#"}
+                                        onMouseEnter={() => setShowCategories(true)}
+                                        onMouseLeave={() => setShowCategories(false)}
+                                        className="flex items-center gap-x-2 h-8"
+                                    >
+                                        {item.name}
+                                        <LiaAngleDownSolid
+                                            size={20}
+                                            className={clsx("transition-transform duration-300", {
+                                                "transform rotate-180": showCategories,
+                                            })}
+                                        />
+                                    </NavLink>
+
+                                    {isLoading && showCategories ? (
+                                        <div
+                                            className="absolute top-8 bg-white p-5 shadow-lg rounded-md flex flex-col space-y-3"
+                                            onMouseEnter={() => setShowCategories(true)}
+                                            onMouseLeave={() => setShowCategories(false)}
+                                        >
+                                            {Array.from({ length: 5 }).map((_, i) => (
+                                                <div
+                                                    key={i}
+                                                    className="h-5 w-20 bg-gray-200 rounded-md animate-pulse"
+                                                />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        data?.data.categories && (
+                                            <ul
+                                                className={clsx(
+                                                    "absolute top-8 bg-white p-5 shadow-lg rounded-md flex flex-col space-y-3",
+                                                    {
+                                                        hidden: !showCategories,
+                                                    }
+                                                )}
+                                                onMouseEnter={() => setShowCategories(true)}
+                                                onMouseLeave={() => setShowCategories(false)}
+                                            >
+                                                {data?.data.categories.map((category) => (
+                                                    <li
+                                                        key={category._id}
+                                                        className="text-black whitespace-nowrap hover:underline"
+                                                    >
+                                                        <NavLink to={`/category/${category.name}`}>
+                                                            {category.name}
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )
+                                    )}
+                                </li>
+                            ) : (
+                                <li key={item.name} className="flex items-center">
+                                    <NavLink to={item?.link || "#"}>{item.name}</NavLink>
+                                </li>
+                            )
+                        )}
                     </ul>
                 </nav>
 
@@ -60,11 +131,45 @@ const NavBar = () => {
                         <Logo />
                     </div>
                     <ul className="font-medium flex flex-col space-y-5 w-full">
-                        {navData.map((item) => (
-                            <li key={item.name} className="border-b pb-5 last:border-none">
-                                <NavLink to={item.link}>{item.name}</NavLink>
-                            </li>
-                        ))}
+                        {navData.map((item) =>
+                            item.name === "Categories" ? (
+                                <li
+                                    key={item.name}
+                                    className="relative border-b pb-4"
+                                    onClick={() => setShowMobileNav(false)}
+                                >
+                                    <NavLink
+                                        to={item?.link || "#"}
+                                        className="flex items-center justify-between gap-x-2 h-8"
+                                    >
+                                        {item.name}
+                                        <LiaAngleDownSolid
+                                            size={20}
+                                            className={clsx("transition-transform duration-300", {
+                                                "transform rotate-180": showCategories,
+                                            })}
+                                            onClick={() => setShowCategories((prev) => !prev)}
+                                        />
+                                    </NavLink>
+                                    {showCategories &&
+                                        data?.data.categories.map((category) => (
+                                            <li className="p-3 text-stone-600">
+                                                <NavLink to={`/category/${category.name}`}>
+                                                    {category.name}
+                                                </NavLink>
+                                            </li>
+                                        ))}
+                                </li>
+                            ) : (
+                                <li
+                                    key={item.name}
+                                    className="border-b pb-5 last:border-none"
+                                    onClick={() => setShowMobileNav(false)}
+                                >
+                                    <NavLink to={item?.link || "#"}>{item.name}</NavLink>
+                                </li>
+                            )
+                        )}
 
                         <span
                             onClick={() => logout()}
@@ -130,8 +235,12 @@ const NavBar = () => {
                                 alt="avatar"
                                 className="w-10 h-10 rounded-full"
                             />
-                            <figcaption>
+                            <figcaption className="md:flex hidden">
                                 {user?.data.user.firstName} {user?.data.user.lastName}
+                            </figcaption>
+                            <figcaption className="md:hidden">
+                                {mobileFirstName}
+                                {mobileLastName}
                             </figcaption>
                         </figure>
 
