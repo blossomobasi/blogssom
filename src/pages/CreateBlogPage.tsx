@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import MiniSpinner from "../ui/MiniSpinner";
 import clsx from "clsx";
+import { useCategory } from "../hooks/useCategory";
 
 const modules = {
     toolbar: [
@@ -23,6 +24,7 @@ const modules = {
 
 const CreateBlogPage = () => {
     const [content, setContent] = useState("");
+    const { data } = useCategory();
 
     const { mutate: CreateBlog, isPending: isCreatingBlog } = useMutation({
         mutationFn: CreateBlogApi,
@@ -63,12 +65,19 @@ const CreateBlogPage = () => {
                         {...register("title", { required: "Title is required" })}
                     />
                     <span className="text-red-500 text-sm">{errors.title?.message}</span>
-                    <input
-                        type="text"
-                        placeholder="Blog Category"
-                        className="border border-gray-300 focus-within:border-gray-500 px-4 py-2 focus-within:outline-none"
+                    <select
+                        id="category"
                         {...register("category", { required: "Category is required" })}
-                    />
+                        className="border border-gray-300 focus-within:border-gray-500 px-4 py-2 focus-within:outline-none bg-transparent"
+                    >
+                        <option value="">Select Category</option>
+                        {data?.data.categories.map((category) => (
+                            <option key={category._id} value={category._id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+
                     <span className="text-red-500 text-sm">{errors.category?.message}</span>
 
                     <ReactQuill
