@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { CreateCommentApi, GetCommentsApi } from "../services"
+import { CreateCommentApi, GetCommentsApi, LikeCommentApi, UnlikeCommentApi } from "../services"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
 
@@ -12,10 +12,10 @@ export const useComment = (blogId: string) => {
     })
 
     const { mutate: createComment, isPending: isCreatingComment } = useMutation({
-        mutationFn: (comment: string) => CreateCommentApi(blogId, comment),
+        mutationFn: (content: string) => CreateCommentApi(blogId, content),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["blog", blogId]
+                queryKey: ["comments", blogId]
             })
         },
         onError: (err: AxiosError) => {
@@ -25,6 +25,31 @@ export const useComment = (blogId: string) => {
 
     })
 
-    return { createComment, isCreatingComment, comments, isCommentsLoading }
+    const { mutate: likeComment } = useMutation({
+        mutationFn: (commentId: string) => LikeCommentApi(commentId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["comments", blogId]
+            })
+        },
+        onError: (err: AxiosError) => {
+            const errorMessage = (err.response?.data as { message: string }).message;
+            toast.error(errorMessage)
+        }
+    })
+    const { mutate: unlikeComment } = useMutation({
+        mutationFn: (commentId: string) => UnlikeCommentApi(commentId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["comments", blogId]
+            })
+        },
+        onError: (err: AxiosError) => {
+            const errorMessage = (err.response?.data as { message: string }).message;
+            toast.error(errorMessage)
+        }
+    })
+
+    return { createComment, isCreatingComment, comments, isCommentsLoading, likeComment, unlikeComment }
 }
 
