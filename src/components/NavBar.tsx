@@ -45,7 +45,7 @@ const NavBar = () => {
     }, [showMobileNav]);
 
     return (
-        <header className="lg:px-20 px-5 py-5 fixed z-50 backdrop-blur-md bg-black/40 w-full flex justify-center">
+        <header className="lg:px-20 px-5 py-5 fixed z-[100] backdrop-blur-md bg-black/40 w-full flex justify-center">
             <div className="flex justify-between items-center text-white w-full max-w-[110rem]">
                 <Logo size={mobileScreen ? "sm" : "lg"} />
 
