@@ -65,6 +65,15 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
         UnlikeBlog(blogId);
     }
 
+    function handleShowComment(blogId: string) {
+        if (!user) {
+            toast.error("Login to get access!");
+            navigate("/login");
+        }
+
+        setShowCommentModal(blogId);
+    }
+
     return (
         <div className="flex justify-center relative">
             <div className="py-10 grid lg:grid-cols-3 sm:grid-cols-2 gap-5 max-w-[110rem] w-full">
@@ -139,7 +148,7 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                     </span>
                                     <span
                                         className="flex items-center space-x-2"
-                                        onClick={() => setShowCommentModal(blog._id)}
+                                        onClick={() => handleShowComment(blog._id)}
                                     >
                                         <FaRegComment size={20} />
                                         <span>
