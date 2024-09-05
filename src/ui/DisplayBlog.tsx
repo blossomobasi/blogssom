@@ -8,15 +8,19 @@ import { LikeBlogApi, UnlikeBlogApi } from "../services";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { useUser } from "../hooks/useUser";
+import { useState } from "react";
+import ShowComment from "../components/ShowComment";
 
 type DisplayBlogProps = {
     data: Blog[];
 };
 
 const DisplayBlog = ({ data }: DisplayBlogProps) => {
+    const [showCommentModal, setShowCommentModal] = useState("");
     const { user } = useUser();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+
     const { mutate: LikeBlog } = useMutation({
         mutationFn: LikeBlogApi,
         onSuccess: () => {
@@ -62,7 +66,7 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
     }
 
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center relative">
             <div className="py-10 grid lg:grid-cols-3 sm:grid-cols-2 gap-5 max-w-[110rem] w-full">
                 {data.map((blog) => {
                     return (
@@ -133,7 +137,10 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                             {blog.likes.length === 0 ? "" : blog.likes.length}
                                         </span>
                                     </span>
-                                    <span className="flex items-center space-x-2">
+                                    <span
+                                        className="flex items-center space-x-2"
+                                        onClick={() => setShowCommentModal(blog._id)}
+                                    >
                                         <FaRegComment size={20} />
                                         <span>
                                             {blog.comments.length === 0 ? "" : blog.comments.length}
@@ -147,6 +154,10 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                     </span> */}
                                 </div>
                             </div>
+
+                            {showCommentModal === blog._id && (
+                                <ShowComment onShowModal={setShowCommentModal} blog={blog} />
+                            )}
                         </div>
                     );
                 })}
