@@ -16,7 +16,7 @@ const ProtectRoute = ({ children }: { children: React.ReactNode }) => {
     if (isLoading) return <Spinner />;
 
     if (error) {
-        const err: AxiosError = error;
+        const err = error as AxiosError;
         const errorMessage = (err.response?.data as { message: string }).message;
 
         toast.error(errorMessage);
