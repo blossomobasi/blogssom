@@ -74,9 +74,18 @@ export const GetCommentsApi = async (blogId: string): Promise<CommentResponse> =
 
     return response.data;
 }
+export const CreateCommentApi = async (blogId: string, content: string): Promise<CommentResponse> => {
+    const response = await $http.post(`/api/v1/blogs/${blogId}/comments`, { content });
 
-export const CreateCommentApi = async (blogId: string, comment: string): Promise<CommentResponse> => {
-    const response = await $http.post(`/api/v1/blogs/${blogId}/comments`, comment);
+    return response.data;
+}
+export const LikeCommentApi = async (commentId: string): Promise<CommentResponse> => {
+    const response = await $http.patch(`/api/v1/comments/${commentId}/like`);
+
+    return response.data;
+}
+export const UnlikeCommentApi = async (commentId: string): Promise<CommentResponse> => {
+    const response = await $http.patch(`/api/v1/comments/${commentId}/unlike`);
 
     return response.data;
 }
