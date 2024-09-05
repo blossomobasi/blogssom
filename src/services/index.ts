@@ -1,6 +1,7 @@
 import { LoginData, AuthResponse, RegisterData, UserResponse } from "../types/auth";
 import { BlogResponse, CreateBlogResponse, SingleBlogResponse } from "../types/blog";
 import { CategoryResponse } from "../types/categories";
+import { CommentResponse } from "../types/comment";
 import $http from "./axiosConfig"
 
 export const LoginApi = async (loginData: LoginData): Promise<AuthResponse> => {
@@ -63,6 +64,19 @@ export const CreateBlogApi = async (formData: FormData): Promise<CreateBlogRespo
             "Content-Type": "multipart/form-data",
         }
     });
+
+    return response.data;
+}
+
+// Comments
+export const GetCommentsApi = async (blogId: string): Promise<CommentResponse> => {
+    const response = await $http.get(`/api/v1/blogs/${blogId}/comments`);
+
+    return response.data;
+}
+
+export const CreateCommentApi = async (blogId: string, comment: string): Promise<CommentResponse> => {
+    const response = await $http.post(`/api/v1/blogs/${blogId}/comments`, comment);
 
     return response.data;
 }
