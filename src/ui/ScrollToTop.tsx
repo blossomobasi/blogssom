@@ -4,7 +4,8 @@ const ScrollToTop = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    return children;
+    
+    return <div>{children}</div>
 };
 
 export default ScrollToTop;
