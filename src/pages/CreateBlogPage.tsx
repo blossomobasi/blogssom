@@ -11,6 +11,7 @@ import { AxiosError } from "axios";
 import MiniSpinner from "../ui/MiniSpinner";
 import clsx from "clsx";
 import { useCategory } from "../hooks/useCategory";
+import { useNavigate } from "react-router-dom";
 
 const modules = {
     toolbar: [
@@ -25,11 +26,13 @@ const modules = {
 const CreateBlogPage = () => {
     const [content, setContent] = useState("");
     const { data } = useCategory();
+    const navigate = useNavigate();
 
     const { mutate: CreateBlog, isPending: isCreatingBlog } = useMutation({
         mutationFn: CreateBlogApi,
         onSuccess: () => {
             toast.success("Blog created successfully");
+            navigate("/blogs");
         },
         onError: (err: AxiosError) => {
             const errorMessage = (err.response?.data as { message: string }).message;
