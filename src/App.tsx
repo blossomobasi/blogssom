@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import BlogIdPage from "./pages/BlogIdPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
 import ProtectRoute from "./components/ProtectRoute";
+import MyBlogs from "./pages/MyBlogs";
 
 function App() {
     const queryClient = new QueryClient();
@@ -25,6 +26,14 @@ function App() {
                         <Route index element={<HomePage />} />
                         <Route path="/blogs" element={<BlogPage />} />
                         <Route path="/blogs/:blogId" element={<BlogIdPage />} />
+                        <Route
+                            path="/my-blogs"
+                            element={
+                                // <ProtectRoute>
+                                <MyBlogs />
+                                // </ProtectRoute>
+                            }
+                        />
                         <Route
                             path="/blogs/create"
                             element={
