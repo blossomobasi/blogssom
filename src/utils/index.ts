@@ -4,9 +4,18 @@ export const formatDate = (date: string) => {
 };
 
 export const truncateText = (text: string, wordLimit: number) => {
-    const words = text.split(' ');
+    const words = text.split(" ");
     if (words.length > wordLimit) {
-        return words.slice(0, wordLimit).join(' ') + '...';
+        return words.slice(0, wordLimit).join(" ") + "...";
     }
     return text;
+};
+
+export const getFirstLetter = (word: string) => {
+    const firstLetter = word
+        .split(" ")
+        .map((el) => el[0])
+        .join("");
+
+    return firstLetter;
 };
