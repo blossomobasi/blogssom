@@ -61,7 +61,7 @@ const ShowComment = ({ onShowModal, blog }: ShowCommentProps) => {
 
             <div
                 className={clsx(
-                    "bg-white p-5 mt-5 rounded-lg border shadow-xl absolute left-1/2 -translate-x-1/2 w-full overflow-y-auto z-50",
+                    "bg-white max-w-[110rem] p-5 mt-5 rounded-lg border shadow-xl absolute left-1/2 -translate-x-1/2 w-full overflow-y-auto z-50",
                     {
                         "h-[40rem]": comments?.results,
                         "h-fit": !comments?.results,
