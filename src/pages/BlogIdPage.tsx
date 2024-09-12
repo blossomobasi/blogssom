@@ -25,7 +25,7 @@ const BlogIdPage = () => {
                         <FaArrowLeft size={25} onClick={() => navigate(-1)} />
                     </div>
 
-                    <h1 className="lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-semibold">
+                    <h1 className="text-center pb-10 pt-5 lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-semibold">
                         {blog?.data.blog.title}
                     </h1>
                     <img
