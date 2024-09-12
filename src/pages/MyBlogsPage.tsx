@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useBlog } from "../hooks/useBlog";
 import DisplayBlog from "../ui/DisplayBlog";
 import ScrollToTop from "../ui/ScrollToTop";
@@ -5,6 +6,7 @@ import Spinner from "../ui/Spinner";
 import Woman_ON_A_Boat from "/images/woman_on_a_boat.jpg";
 
 const MyBlogsPage = () => {
+    const navigate = useNavigate();
     const { myBlogs, isFetchingMyBlog, myBlogError } = useBlog();
 
     if (myBlogError) return <div>{myBlogError.message}</div>;
@@ -29,7 +31,22 @@ const MyBlogsPage = () => {
                 {isFetchingMyBlog ? (
                     <Spinner />
                 ) : !myBlogs?.results ? (
-                    <div className="pt-10 px-4">No Blog found</div>
+                    <div className="py-10 px-4 text-center">
+                        <p className="text-lg text-gray-400 font-medium">
+                            You have not created any blog yet.
+                        </p>
+
+                        <p className="text-lg text-gray-400 font-medium">
+                            Click the button below to create a blog.
+                        </p>
+
+                        <button
+                            className="mt-5 bg-black hover:bg-black/80 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => navigate("/blogs/create")}
+                        >
+                            Create Blog
+                        </button>
+                    </div>
                 ) : (
                     <DisplayBlog data={myBlogs.data.blogs} />
                 )}
