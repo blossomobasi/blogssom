@@ -72,6 +72,9 @@ export const CreateBlogApi = async (formData: FormData): Promise<CreateBlogRespo
 
     return response.data;
 };
+export const DeleteBlogApi = async (blogId: string): Promise<void> => {
+    await $http.delete(`/api/v1/blogs/${blogId}`);
+};
 
 // Comments
 export const GetCommentsApi = async (blogId: string): Promise<CommentResponse> => {
