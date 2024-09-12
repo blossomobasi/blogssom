@@ -10,7 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import BlogIdPage from "./pages/BlogIdPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
 import ProtectRoute from "./components/ProtectRoute";
-import MyBlogs from "./pages/MyBlogs";
+import MyBlogsPage from "./pages/MyBlogsPage";
 
 function App() {
     const queryClient = new QueryClient();
@@ -30,7 +30,7 @@ function App() {
                             path="/my-blogs"
                             element={
                                 // <ProtectRoute>
-                                <MyBlogs />
+                                <MyBlogsPage />
                                 // </ProtectRoute>
                             }
                         />
