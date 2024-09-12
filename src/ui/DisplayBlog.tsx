@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Blog } from "../types/blog";
 import { FaHeart, FaRegComment, FaRegHeart } from "react-icons/fa";
 import { formatDate, truncateText } from "../utils";
@@ -8,8 +8,13 @@ import { LikeBlogApi, UnlikeBlogApi } from "../services";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { useUser } from "../hooks/useUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShowComment from "../components/ShowComment";
+
+import { HiDotsVertical } from "react-icons/hi";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { PencilIcon, TrashIcon } from "@heroicons/react/16/solid";
+import { useBlog } from "../hooks/useBlog";
 
 type DisplayBlogProps = {
     data: Blog[];
@@ -18,8 +23,13 @@ type DisplayBlogProps = {
 const DisplayBlog = ({ data }: DisplayBlogProps) => {
     const [showCommentModal, setShowCommentModal] = useState("");
     const [immediateLikeChange, setImmediateLikeChange] = useState<{ [key: string]: boolean }>({});
+    const [showOption, setShowOption] = useState(false);
     const { user } = useUser();
+    const { deleteBlog, isDeletingBlog } = useBlog();
+
     const navigate = useNavigate();
+    const { pathname } = useLocation();
+
     const queryClient = useQueryClient();
 
     const { mutate: LikeBlog } = useMutation({
@@ -95,6 +105,17 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
             setShowCommentModal(blogId);
         }
     }
+    function handleBlogDelete(blogId: string) {
+        if (isDeletingBlog) return;
+
+        deleteBlog(blogId);
+    }
+
+    useEffect(() => {
+        if (pathname === "/my-blogs") {
+            setShowOption(true);
+        }
+    }, [showOption, pathname]);
 
     return (
         <div className="flex justify-center relative">
@@ -179,6 +200,46 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                             {blog.comments.length === 0 ? "" : blog.comments.length}
                                         </span>
                                     </span>
+                                    {showOption && (
+                                        <div className="text-right">
+                                            <Menu>
+                                                <MenuButton className="inline-flex items-center gap-2 rounded-md py-1.5 text-sm/6 font-semibold focus:outline-none text-gray-800">
+                                                    <HiDotsVertical className="size-5" />
+                                                </MenuButton>
+
+                                                <MenuItems
+                                                    transition
+                                                    anchor="bottom end"
+                                                    className="w-52 origin-top-right rounded-xl border border-black/5 bg-white p-1 text-sm/6 text-gray-800 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+                                                >
+                                                    <MenuItem>
+                                                        <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10">
+                                                            <PencilIcon className="size-4 fill-black/70" />
+                                                            Edit
+                                                            {/* <kbd className="ml-auto hidden font-sans text-xs text-black/50 group-data-[focus]:inline">
+                                                            ⌘E
+                                                        </kbd> */}
+                                                        </button>
+                                                    </MenuItem>
+                                                    <div className="my-1 h-px bg-black/5" />
+                                                    <MenuItem>
+                                                        <button
+                                                            className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-black/10"
+                                                            onClick={() =>
+                                                                handleBlogDelete(blog._id)
+                                                            }
+                                                        >
+                                                            <TrashIcon className="size-4 fill-black/70" />
+                                                            Delete
+                                                            {/* <kbd className="ml-auto hidden font-sans text-xs text-black/50 group-data-[focus]:inline">
+                                                            ⌘D
+                                                        </kbd> */}
+                                                        </button>
+                                                    </MenuItem>
+                                                </MenuItems>
+                                            </Menu>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
