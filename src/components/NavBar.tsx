@@ -10,6 +10,7 @@ import { TbMenu } from "react-icons/tb";
 import { IoMdClose } from "react-icons/io";
 import { useCategory } from "../hooks/useCategory";
 import { LiaAngleDownSolid } from "react-icons/lia";
+import { getFirstLetter } from "../utils";
 
 const NavBar = () => {
     const { user } = useUser();
@@ -21,20 +22,11 @@ const NavBar = () => {
     const navData = [
         { name: "Home", link: "/" },
         { name: "Blog", link: "/blogs" },
-        { name: "Categories" }, // should have subcategories.
-        { name: "Gallery", link: "/gallery" },
+        { name: "Categories" },
+        { name: "My Blogs", link: "/my-blogs" },
     ];
 
     const mobileScreen = window.innerWidth < 768;
-
-    const mobileFirstName = user?.data.user.firstName
-        .split(" ")
-        .map((name) => name[0])
-        .join("");
-    const mobileLastName = user?.data.user.lastName
-        .split(" ")
-        .map((name) => name[0])
-        .join("");
 
     useEffect(() => {
         if (showMobileNav) {
@@ -235,11 +227,11 @@ const NavBar = () => {
                                 className="w-10 h-10 rounded-full"
                             />
                             <figcaption className="md:flex hidden">
-                                {user?.data.user.firstName} {user?.data.user.lastName}
+                                {user.data.user.firstName} {user.data.user.lastName}
                             </figcaption>
                             <figcaption className="md:hidden">
-                                {mobileFirstName}
-                                {mobileLastName}
+                                {getFirstLetter(user.data.user.firstName)}
+                                {getFirstLetter(user.data.user.lastName)}
                             </figcaption>
                         </figure>
 
