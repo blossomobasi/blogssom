@@ -17,18 +17,29 @@ type DisplayBlogProps = {
 
 const DisplayBlog = ({ data }: DisplayBlogProps) => {
     const [showCommentModal, setShowCommentModal] = useState("");
+    const [immediateLikeChange, setImmediateLikeChange] = useState<{ [key: string]: boolean }>({});
     const { user } = useUser();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
     const { mutate: LikeBlog } = useMutation({
         mutationFn: LikeBlogApi,
+        onMutate: async (blogId: string) => {
+            // Optimistic UI update
+            setImmediateLikeChange((prevState) => ({
+                ...prevState,
+                [blogId]: true,
+            }));
+        },
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["blogs"],
-            });
+            queryClient.invalidateQueries({ queryKey: ["blogs"] });
         },
         onError: (err: AxiosError) => {
+            // Revert the optimistic update
+            setImmediateLikeChange((prevState) => ({
+                ...prevState,
+                [err.request.responseURL.split("/").pop()!]: false,
+            }));
             const errorMessage = (err.response?.data as { message: string }).message;
             toast.error(errorMessage);
         },
@@ -36,12 +47,22 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
 
     const { mutate: UnlikeBlog } = useMutation({
         mutationFn: UnlikeBlogApi,
+        onMutate: async (blogId: string) => {
+            // Optimistic UI update
+            setImmediateLikeChange((prevState) => ({
+                ...prevState,
+                [blogId]: false,
+            }));
+        },
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["blogs"],
-            });
+            queryClient.invalidateQueries({ queryKey: ["blogs"] });
         },
         onError: (err: AxiosError) => {
+            // Revert the optimistic update
+            setImmediateLikeChange((prevState) => ({
+                ...prevState,
+                [err.request.responseURL.split("/").pop()!]: true,
+            }));
             const errorMessage = (err.response?.data as { message: string }).message;
             toast.error(errorMessage);
         },
@@ -57,8 +78,9 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
     function handleLike(blogId: string) {
         if (!user) {
             navigate("/login");
+        } else {
+            LikeBlog(blogId);
         }
-        LikeBlog(blogId);
     }
 
     function handleUnlike(blogId: string) {
@@ -69,15 +91,17 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
         if (!user) {
             toast.error("Login to get access!");
             navigate("/login");
+        } else {
+            setShowCommentModal(blogId);
         }
-
-        setShowCommentModal(blogId);
     }
 
     return (
         <div className="flex justify-center relative">
             <div className="py-10 grid lg:grid-cols-3 sm:grid-cols-2 gap-5 max-w-[110rem] w-full">
                 {data.map((blog) => {
+                    const isLiked = immediateLikeChange[blog._id] ?? hasAlreadyLikedBlog(blog._id);
+
                     return (
                         <div key={blog._id} className="py-5">
                             <div
@@ -130,7 +154,7 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
 
                                 <div className="flex items-center space-x-5 text-gray-600">
                                     <span className="flex items-center space-x-2">
-                                        {!hasAlreadyLikedBlog(blog._id) ? (
+                                        {!isLiked ? (
                                             <FaRegHeart
                                                 size={20}
                                                 onClick={() => handleLike(blog._id)}
@@ -155,12 +179,6 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                             {blog.comments.length === 0 ? "" : blog.comments.length}
                                         </span>
                                     </span>
-                                    {/* <span className="flex items-center space-x-2">
-                                        <IoEyeOutline size={25} />
-                                        <span>
-                                            {blog.views.length === 0 ? "" : blog.views.length}
-                                        </span>
-                                    </span> */}
                                 </div>
                             </div>
 
