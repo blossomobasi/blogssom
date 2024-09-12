@@ -29,9 +29,9 @@ function App() {
                         <Route
                             path="/my-blogs"
                             element={
-                                // <ProtectRoute>
-                                <MyBlogsPage />
-                                // </ProtectRoute>
+                                <ProtectRoute>
+                                    <MyBlogsPage />
+                                </ProtectRoute>
                             }
                         />
                         <Route
