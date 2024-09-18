@@ -11,6 +11,8 @@ import BlogIdPage from "./pages/BlogIdPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
 import ProtectRoute from "./components/ProtectRoute";
 import MyBlogsPage from "./pages/MyBlogsPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
     const queryClient = new QueryClient();
@@ -46,6 +48,8 @@ function App() {
 
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                    <Route path="/reset-password" element={<ResetPasswordPage />} />
 
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Routes>
