@@ -17,6 +17,23 @@ export const RegisterApi = async (registerData: RegisterData): Promise<AuthRespo
     return response.data;
 };
 
+export const ForgotPasswordApi = async (
+    email: string
+): Promise<{ status: string; message: string }> => {
+    const response = await $http.post(`/api/v1/users/forgotPassword`, { email });
+
+    return response.data;
+};
+
+export const ResetPasswordApi = async (
+    password: string,
+    resetToken: string
+): Promise<UserResponse> => {
+    const response = await $http.patch(`/api/v1/users/resetPassword${resetToken}`, { password });
+
+    return response.data;
+};
+
 // Get User
 export const GetUserApi = async (): Promise<UserResponse> => {
     const response = await $http.get(`/api/v1/users/me`);
