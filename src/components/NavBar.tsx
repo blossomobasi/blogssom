@@ -16,6 +16,7 @@ const NavBar = () => {
     const { user } = useUser();
     const { data, isLoading } = useCategory();
     const { logout, isLoggingout } = useLogout();
+    const [isActive, setIsActive] = useState("");
     const [showMobileNav, setShowMobileNav] = useState(false);
     const [showCategories, setShowCategories] = useState(false);
 
@@ -43,15 +44,20 @@ const NavBar = () => {
 
                 {/* Desktop Navigation */}
                 <nav className="md:flex hidden">
-                    <ul className="flex space-x-8 font-medium">
+                    <ul className="flex lg:space-x-8 space-x-6 font-medium">
                         {navData.map((item) =>
                             item.name === "Categories" ? (
                                 <li key={item.name} className="relative">
-                                    <NavLink
-                                        to={item?.link || "#"}
+                                    <li
                                         onMouseEnter={() => setShowCategories(true)}
                                         onMouseLeave={() => setShowCategories(false)}
-                                        className="flex items-center gap-x-2 h-8"
+                                        className={clsx(
+                                            "flex items-center gap-x-2 h-8 cursor-pointer",
+                                            {
+                                                "active-nav": isActive === item.name,
+                                            }
+                                        )}
+                                        onClick={() => setIsActive(item.name)}
                                     >
                                         {item.name}
                                         <LiaAngleDownSolid
@@ -60,7 +66,7 @@ const NavBar = () => {
                                                 "transform rotate-180": showCategories,
                                             })}
                                         />
-                                    </NavLink>
+                                    </li>
 
                                     {isLoading && showCategories ? (
                                         <div
@@ -102,7 +108,13 @@ const NavBar = () => {
                                     )}
                                 </li>
                             ) : (
-                                <li key={item.name} className="flex items-center">
+                                <li
+                                    key={item.name}
+                                    className={clsx("flex items-center", {
+                                        "active-nav": isActive === item.name,
+                                    })}
+                                    onClick={() => setIsActive(item.name)}
+                                >
                                     <NavLink to={item?.link || "#"}>{item.name}</NavLink>
                                 </li>
                             )
@@ -226,10 +238,10 @@ const NavBar = () => {
                                 alt="avatar"
                                 className="w-10 h-10 rounded-full"
                             />
-                            <figcaption className="md:flex hidden">
+                            <figcaption className="lg:flex hidden">
                                 {user.data.user.firstName} {user.data.user.lastName}
                             </figcaption>
-                            <figcaption className="md:hidden">
+                            <figcaption className="lg:hidden">
                                 {getFirstLetter(user.data.user.firstName)}
                                 {getFirstLetter(user.data.user.lastName)}
                             </figcaption>
