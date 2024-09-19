@@ -5,7 +5,7 @@ const HomeMain = () => {
         <div className="relative h-screen">
             <video autoPlay muted loop id="myVideo" className="h-full object-cover w-full">
                 <source
-                    src="https://videos.pexels.com/video-files/2257010/2257010-uhd_3840_2160_24fps.mp4"
+                    src="https://videos.pexels.com/video-files/2257010/2257010-hd_1920_1080_24fps.mp4"
                     type="video/mp4"
                 />
             </video>
