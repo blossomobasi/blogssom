@@ -9,3 +9,8 @@ body {
     position: relative;
     overflow-x: hidden;
 }
+
+.active-nav {
+    border-left: 3px solid white;
+    padding-left: 0.5rem;
+}
