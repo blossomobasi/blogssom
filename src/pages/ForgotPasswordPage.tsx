@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
@@ -20,13 +19,8 @@ const ForgotPasswordPage = () => {
         <AuthLayout>
             <div className="w-[30rem]">
                 <div>
-                    <h1 className="text-4xl mb-5 font-bold">Login</h1>
-                    <p className="mb-8 text-gray-600">
-                        Don't have an account yet?{" "}
-                        <Link to="/register" className="text-black hover:underline font-semibold">
-                            Register
-                        </Link>
-                    </p>
+                    <h1 className="text-4xl mb-5 font-bold">Forgot Password</h1>
+                    <p className="mb-8 text-gray-600">Enter your email to reset your password</p>
                 </div>
 
                 <form className="flex flex-col space-y-3" onSubmit={handleSubmit(onSubmit)}>
