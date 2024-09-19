@@ -179,12 +179,13 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                             <FaRegHeart
                                                 size={20}
                                                 onClick={() => handleLike(blog._id)}
+                                                className="cursor-pointer"
                                             />
                                         ) : (
                                             <FaHeart
                                                 size={20}
                                                 onClick={() => handleUnlike(blog._id)}
-                                                className="text-red-500"
+                                                className="text-red-500 cursor-pointer"
                                             />
                                         )}
                                         <span>
@@ -195,7 +196,7 @@ const DisplayBlog = ({ data }: DisplayBlogProps) => {
                                         className="flex items-center space-x-2"
                                         onClick={() => handleShowComment(blog._id)}
                                     >
-                                        <FaRegComment size={20} />
+                                        <FaRegComment size={20} className="cursor-pointer" />
                                         <span>
                                             {blog.comments.length === 0 ? "" : blog.comments.length}
                                         </span>
