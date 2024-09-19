@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import Logo from "./Logo";
 import { useUser } from "../hooks/useUser";
 import { CiLogout } from "react-icons/ci";
@@ -13,6 +13,7 @@ import { LiaAngleDownSolid } from "react-icons/lia";
 import { getFirstLetter } from "../utils";
 
 const NavBar = () => {
+    const { pathname } = useLocation();
     const { user } = useUser();
     const { data, isLoading } = useCategory();
     const { logout, isLoggingout } = useLogout();
@@ -26,6 +27,10 @@ const NavBar = () => {
         { name: "Categories" },
         { name: "My Blogs", link: "/my-blogs" },
     ];
+
+    useEffect(() => {
+        setIsActive(pathname);
+    }, [pathname]);
 
     const mobileScreen = window.innerWidth < 768;
 
@@ -54,10 +59,10 @@ const NavBar = () => {
                                         className={clsx(
                                             "flex items-center gap-x-2 h-8 cursor-pointer",
                                             {
-                                                "active-nav": isActive === item.name,
+                                                "active-nav": isActive === item.link,
                                             }
                                         )}
-                                        onClick={() => setIsActive(item.name)}
+                                        onClick={() => setIsActive(item.link || "#")}
                                     >
                                         {item.name}
                                         <LiaAngleDownSolid
@@ -111,9 +116,9 @@ const NavBar = () => {
                                 <li
                                     key={item.name}
                                     className={clsx("flex items-center", {
-                                        "active-nav": isActive === item.name,
+                                        "active-nav": isActive === item.link,
                                     })}
-                                    onClick={() => setIsActive(item.name)}
+                                    onClick={() => setIsActive(item.link || "#")}
                                 >
                                     <NavLink to={item?.link || "#"}>{item.name}</NavLink>
                                 </li>
