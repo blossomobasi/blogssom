@@ -29,7 +29,7 @@ export const ResetPasswordApi = async (
     password: string,
     resetToken: string
 ): Promise<UserResponse> => {
-    const response = await $http.patch(`/api/v1/users/resetPassword${resetToken}`, { password });
+    const response = await $http.patch(`/api/v1/users/resetPassword/${resetToken}`, { password });
 
     return response.data;
 };
