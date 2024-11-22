@@ -5,12 +5,12 @@
 @tailwind utilities;
 
 body {
-    font-family: "Montserrat", sans-serif;
-    position: relative;
-    overflow-x: hidden;
+	font-family: "Montserrat", sans-serif;
+	position: relative;
+	overflow-x: hidden;
 }
 
 .active-nav {
-    border-left: 3px solid white;
-    padding-left: 0.5rem;
+	border-left: 3px solid white;
+	padding-left: 0.5rem;
 }
